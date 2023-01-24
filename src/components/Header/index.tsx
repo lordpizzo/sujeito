@@ -1,5 +1,5 @@
 import styles from './styles.module.scss'
-import logo from '../../../public/images/logo.svg'
+import logo from '../../../public/images/logopizzosoft.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import ActiveLink from '../ActiveLink'
