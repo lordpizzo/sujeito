@@ -24,7 +24,6 @@ interface ContentProps {
 }
 
 export default function Home({ content }: ContentProps) {
-	console.log(content)
 	return (
 		<>
 			<Head>
@@ -49,21 +48,21 @@ export default function Home({ content }: ContentProps) {
 
 				<div className={styles.sectionContent}>
 					<section>
-						<h2>Primeiro Link PizzoSoft</h2>
-						<span>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...</span>
+						<h2>{content.mobile}</h2>
+						<span>{content.mobile_content}</span>
 					</section>
 
-					<img src="/images/financasApp.png" alt="Conteúdos Mobile" />
+					<img src={content.mobile_banner} alt="Conteúdos Mobile" />
 				</div>
 
 				<hr className={styles.divisor} />
 
 				<div className={styles.sectionContent}>
-					<img src="/images/webDev.png" alt="Conteúdos Mobile" />
+					<img src={content.web_banner} alt="Conteúdos Mobile" />
 
 					<section>
-						<h2>Segundo Link PizzoSoft</h2>
-						<span>There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain...</span>
+						<h2>{content.title_web}</h2>
+						<span>{content.webcontent}</span>
 					</section>
 
 				</div>
@@ -76,7 +75,7 @@ export default function Home({ content }: ContentProps) {
 					</h2>
 					<span>Why do we use it?</span>
 
-					<Link href=''>
+					<Link href={content.link_action}>
 						<button>
 							Começar agora!
 						</button>
