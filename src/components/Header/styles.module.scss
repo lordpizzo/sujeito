@@ -31,7 +31,7 @@
 			color: var(--gray-100);
 			transition: 0.9s;
 
-			&+a {
+			& + a {
 				margin-left: 2rem;
 			}
 
@@ -61,28 +61,28 @@
 	font-weight: bold;
 	transition: filter 0.8s;
 
-	&:hover{
+	&:hover {
 		filter: brightness(1.2);
 	}
 }
 
 @media (max-width: 790px) {
-	.headerContainer{
+	.headerContainer {
 		height: 11rem;
 		padding: 0.5rem 0;
 	}
 
-	.headerContent{
+	.headerContent {
 		display: flex;
 		flex-direction: column;
 
-		nav{
+		nav {
 			display: block;
 			margin-left: auto;
 			margin-right: auto;
 		}
 
-		.readybutton{
+		.readybutton {
 			display: none;
 		}
 	}
