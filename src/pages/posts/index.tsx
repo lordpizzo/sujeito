@@ -8,6 +8,7 @@ import { getPrismicClient } from '@/services/prismic'
 import Prismic from '@prismicio/client'
 import { RichText } from 'prismic-dom'
 import { useState } from 'react'
+import getPosts from '../../services/getPosts'
 
 type Post = {
 	title: string,
@@ -17,12 +18,21 @@ type Post = {
 	slug: string
 }
 interface PostsProps {
-	posts: Post[]
+	posts: Post[],
+	page: string,
+	totalPage: string
 }
 
-export default function Posts({ posts: postsBlog }: PostsProps) {
+export default function Posts({ posts: postsBlog, page, totalPage }: PostsProps) {
 
 	const [posts, setPosts] = useState(postsBlog || [])
+	const [currentPage, SetCurrentPage] = useState(Number(page))
+
+	async function navigatePage(pageNumber: number) {
+		const response = await getPosts(pageNumber)
+		SetCurrentPage(pageNumber)
+		setPosts(response.posts)
+	}
 
 	return (
 		<>
@@ -50,22 +60,27 @@ export default function Posts({ posts: postsBlog }: PostsProps) {
 					))}
 
 					<div className={styles.buttonNavigate}>
-						<div>
-							<button>
-								<FiChevronsLeft size={25} color="#FFF" />
-							</button>
-							<button>
-								<FiChevronLeft size={25} color="#FFF" />
-							</button>
-						</div>
-						<div>
-							<button>
-								<FiChevronRight size={25} color="#FFF" />
-							</button>
-							<button>
-								<FiChevronsRight size={25} color="#FFF" />
-							</button>
-						</div>
+
+						{Number(currentPage) >= 2 && (
+							<div>
+								<button onClick={() => navigatePage(1)}>
+									<FiChevronsLeft size={25} color="#FFF" />
+								</button>
+								<button onClick={() => navigatePage(Number(currentPage - 1))}>
+									<FiChevronLeft size={25} color="#FFF" />
+								</button>
+							</div>
+						)}
+						{Number(currentPage) < Number(totalPage) && (
+							<div>
+								<button onClick={() => navigatePage(Number(currentPage + 1))}>
+									<FiChevronRight size={25} color="#FFF" />
+								</button>
+								<button onClick={() => navigatePage(Number(totalPage))}>
+									<FiChevronsRight size={25} color="#FFF" />
+								</button>
+							</div>
+						)}
 
 					</div>
 				</div>
@@ -76,32 +91,12 @@ export default function Posts({ posts: postsBlog }: PostsProps) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-	const prismic = getPrismicClient()
-	const response = await prismic.query([
-		Prismic.Predicates.at('document.type', 'post'),
-	], {
-		orderings: '[document.last_publication_date desc]',
-		fetch: ['post.title', 'post.description', 'post.cover'],
-		pageSize: 3
-	})
 
-	const posts = response.results.map((post) => {
-		return {
-			title: RichText.asText(post.data.title),
-			description: post.data.description.find(content => content.type === 'paragraph')?.text ?? '',
-			cover: post.data.cover.url,
-			updateAt: new Date(post.last_publication_date).toLocaleDateString('pt-BR', {
-				day: '2-digit',
-				month: 'long',
-				year: 'numeric',
-			}),
-			slug: post.uid
-		}
-	})
+	const response = await getPosts(1)
 	return {
-		props: {
-			posts
-		},
+		props:
+			response
+		,
 		revalidate: 60 * 30 // atualiza a cada 30 minutos
 	}
 }
