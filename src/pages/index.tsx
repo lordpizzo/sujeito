@@ -3,7 +3,28 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/home.module.scss'
 import techsImage from '../../public/images/techs.svg'
-export default function Home() {
+import { GetStaticProps } from 'next'
+import { getPrismicClient } from '@/services/prismic'
+import Prismic from '@prismicio/client'
+import { RichText } from 'prismic-dom'
+
+type Content = {
+	title: string,
+	subtile: string,
+	link_action: string,
+	mobile: string,
+	mobile_content: string,
+	mobile_banner: string,
+	title_web: string,
+	webcontent: string,
+	web_banner: string
+}
+interface ContentProps {
+	content: Content
+}
+
+export default function Home({ content }: ContentProps) {
+	console.log(content)
 	return (
 		<>
 			<Head>
@@ -12,10 +33,10 @@ export default function Home() {
 			<main className={styles.container}>
 				<div className={styles.containerHeader}>
 					<section className={styles.ctaText}>
-						<h1>Levando você ao  próximo nivel</h1>
-						<span>Uma plataforma bla bla bla</span>
+						<h1>{content.title}</h1>
+						<span>{content.subtile}</span>
 
-						<Link href=''>
+						<Link href={content.link_action}>
 							<button>
 								Começar agora
 							</button>
@@ -64,4 +85,33 @@ export default function Home() {
 			</main>
 		</>
 	)
+}
+
+
+export const getStaticProps: GetStaticProps = async () => {
+	const prismic = getPrismicClient()
+
+	const response = await prismic.query([
+		Prismic.Predicates.at('document.type', 'home')
+	])
+	const { title, subtitle, link_action, mobile, mobile_content, mobile_banner, title_web, webcontent, web_banner } = response.results[0].data
+
+	const content = {
+		title: RichText.asText(title),
+		subtile: RichText.asText(subtitle),
+		link_action: link_action.url,
+		mobile: RichText.asText(mobile),
+		mobile_content: RichText.asText(mobile_content),
+		mobile_banner: mobile_banner.url,
+		title_web: RichText.asText(title_web),
+		webcontent: RichText.asText(webcontent),
+		web_banner: web_banner.url
+	}
+
+	return {
+		props: {
+			content
+		},
+		revalidate: 60 * 2
+	}
 }
