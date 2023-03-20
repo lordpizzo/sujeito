@@ -6,10 +6,10 @@
 
 :root {
 	--white: #fff;
-	--gray-100: #2e2727;
+	--gray-100: #f3f1f1;
 	--gray-200: #525252; //divisor
-	--gray-700: #909aad; //background header
-	--gray-900: #d4d4e8; //background body
+	--gray-700: #010a1d; //background header
+	--gray-900: #1f2c34; //background body
 
 	--blue-900: #1fa4e5; //CTA - Buttons
 	--yellow-500: #FFBE16;
@@ -42,7 +42,7 @@ input,
 textarea,
 select,
 button {
-	font: 400 1rem '' Poppins, sans-serif;
+	font: 400 1rem sans-serif;
 }
 
 button {

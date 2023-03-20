@@ -1,5 +1,5 @@
 import styles from './styles.module.scss'
-import logo from '../../../public/images/logopizzosoft.png'
+import logo from '../../../public/images/PizzoSoft_final.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import ActiveLink from '../ActiveLink'
@@ -22,11 +22,9 @@ export default function Header() {
 					<ActiveLink href='/sobre' activeClassName={styles.active}>
 						Quem Somos
 					</ActiveLink>
-
-
 				</nav>
-				<Link className={styles.readybutton} type='button' href="https://pizzosoft.com.br">
-					Começar
+				<Link className={styles.readybutton} type='button' href="/">
+					Solicite um Orçamento
 				</Link>
 			</div>
 		</header>

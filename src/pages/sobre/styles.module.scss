@@ -24,13 +24,13 @@
 		font-size: 3rem;
 		font-weight: 900;
 		margin: 2.5rem 0;
-		color: var(--gray-200);
+		color: var(--gray-100);
 	}
 
 	p {
 		font-size: 1rem;
 		line-height: 2.25rem;
-		color: var(--gray-200);
+		color: var(--gray-100);
 		white-space: pre-wrap;
 		text-align: justify;
 	}
@@ -39,7 +39,7 @@
 	}
 
 	svg {
-		color: #000;
+		color: var(--gray-100);
 		cursor: pointer;
 		margin-left: 15px;
 		transition: 0.5s;
@@ -59,9 +59,9 @@
 		padding: 0.5rem 1rem;
 
 		img {
-			max-width: 400px;
+			max-width: 320px;
+			max-height: 120px;
 			padding: 1.5rem;
-			max-height: 300px;
 			margin-left: 0;
 		}
 	}
@@ -69,5 +69,59 @@
 		h1 {
 			font-size: 2.5rem;
 		}
+	}
+}
+
+@media (max-width: 800px) {
+	.containerHeader {
+		img {
+			display: none;
+		}
+	}
+}
+
+.postContent {
+	margin-top: 2rem;
+	line-height: 2rem;
+	font-size: 1.125rem;
+	color: var(--gray-100);
+	justify-content: space-around;
+
+	iframe {
+		width: 100%;
+		min-height: 350px;
+		height: 100%;
+		padding: 0.5rem 0;
+	}
+
+	p,
+	ul {
+		margin: 1.5rem 0;
+	}
+
+	p {
+		text-align: justify;
+	}
+
+	ul {
+		padding-left: 1.5rem;
+
+		li {
+			margin: 0.5rem 0;
+		}
+	}
+
+	a:hover {
+		color: var(--yellow-500);
+	}
+
+	pre {
+		border-radius: 1rem;
+		background: var(--gray-200);
+		padding: 0.5rem;
+		font-size: 0.8rem;
+		color: var(--gray-900);
+		line-height: 1rem;
+		white-space: pre-wrap;
 	}
 }

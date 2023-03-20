@@ -32,9 +32,7 @@ export default function Sobre({ content }: ContentProps) {
 						<h1>
 							{content.title}
 						</h1>
-						<p>
-							{content.description}
-						</p>
+						<div className={styles.postContent} dangerouslySetInnerHTML={{__html: content.description}}></div>
 
 						<Link href={content.facebook}>
 							<FaFacebook size={40} />
@@ -50,8 +48,8 @@ export default function Sobre({ content }: ContentProps) {
 					<Image
 						src={content.banner}
 						alt="PizzoSoft"
-						width={720}
-						height={400}
+						width={620}
+						height={310}
 						quality={100}
 						blurDataURL='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mO0qgcAAPkAu0/RaYsAAAAASUVORK5CYII='
 						placeholder="blur"
@@ -79,7 +77,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
 	const content = {
 		title: RichText.asText(title),
-		description: RichText.asText(description),
+		description: RichText.asHtml(description),
 		banner: banner.url,
 		facebook: facebook.url,
 		instagram: instagram.url,

@@ -5,6 +5,7 @@ import Prismic from '@prismicio/client'
 import { RichText } from 'prismic-dom'
 import Head from 'next/head'
 import Image from 'next/image'
+import getPosts from '@/services/getPosts'
 
 interface PostProps {
 	post: {
@@ -43,10 +44,24 @@ export default function Post({ post }: PostProps) {
 	)
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ req, params }) => {
-	const { slug } = params
+export async function getStaticPaths() {
+	const results = await getPosts(1)
 
-	const prismic = getPrismicClient(req)
+	console.log(results)
+
+	const paths = results.posts.map((post: { slug: any }) => ({
+		params: { slug: post.slug },
+	}));
+	return {
+		paths,
+		fallback: false,
+	};
+}
+
+export const getStaticProps = async (context: { params: { slug?: "" | undefined; }; }) => {
+	const { slug = "" } = context.params
+
+	const prismic = getPrismicClient()
 
 	const response = await prismic.getByUID('post', String(slug), {})
 
@@ -70,10 +85,10 @@ export const getServerSideProps: GetServerSideProps = async ({ req, params }) =>
 			year: 'numeric',
 		})
 	}
-console.log(response.last_publication_date)
 	return {
 		props: {
 			post
 		},
+		revalidate: 60 * 15
 	}
 }
