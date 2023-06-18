@@ -56,17 +56,12 @@ export default function Home({ content }: ContentProps) {
 						placeholder="blur" />
 				</div>
 				<hr className={styles.divisor} />
-
 				<div className={styles.sectionContent}>
 					<section>
 						<h2>{content.mobile}</h2>
 						<div className={styles.postContent} dangerouslySetInnerHTML={{__html: content.mobile_content}}></div>
 					</section>
-
-					<img src={content.mobile_banner} alt="Conteúdos Mobile" />
 				</div>
-
-				
 			</main>
 		</>
 	)
